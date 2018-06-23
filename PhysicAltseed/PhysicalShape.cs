@@ -43,6 +43,7 @@ namespace PhysicAltseed
     public interface PhysicalShape
     {
         Body B2Body { get; }
+
         /// <summary>
         /// 角度
         /// </summary>
@@ -57,6 +58,11 @@ namespace PhysicAltseed
         /// 反発係数
         /// </summary>
         float Restitution { get; set; }
+
+        /// <summary>
+        /// 摩擦係数
+        /// </summary>
+        float Friction { get; set; }
 
         /// <summary>
         /// 速度

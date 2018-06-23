@@ -24,6 +24,9 @@ namespace PhysicAltseed
             }
         }
 
+        /// <summary>
+        /// 描画範囲
+        /// </summary>
         public new asd.RectF DrawingArea
         {
             get
@@ -37,6 +40,9 @@ namespace PhysicAltseed
             }
         }
 
+        /// <summary>
+        /// DrawingArea.Sizeの半分のベクトル
+        /// </summary>
         public new asd.Vector2DF CenterPosition
         {
             get
@@ -49,6 +55,9 @@ namespace PhysicAltseed
             }
         }
 
+        /// <summary>
+        /// 角度
+        /// </summary>
         public new float Angle
         {
             get
@@ -63,6 +72,9 @@ namespace PhysicAltseed
         }
 
         float density;
+        /// <summary>
+        /// 密度
+        /// </summary>
         public float Density
         {
             get
@@ -77,6 +89,9 @@ namespace PhysicAltseed
         }
 
         float restitution;
+        /// <summary>
+        /// 反発係数
+        /// </summary>
         public float Restitution
         {
             get
@@ -91,6 +106,9 @@ namespace PhysicAltseed
         }
 
         float friction;
+        /// <summary>
+        /// 摩擦係数
+        /// </summary>
         public float Friction
         {
             get
@@ -104,6 +122,9 @@ namespace PhysicAltseed
             }
         }
 
+        /// <summary>
+        /// 速度
+        /// </summary>
         public asd.Vector2DF Velocity
         {
             get
@@ -117,6 +138,9 @@ namespace PhysicAltseed
             }
         }
 
+        /// <summary>
+        /// 角速度
+        /// </summary>
         public float AngularVelocity
         {
             get
@@ -169,11 +193,21 @@ namespace PhysicAltseed
             if (physicalShapeType == PhysicalShapeType.Dynamic) b2Body.SetMassFromShapes();
         }
 
+        /// <summary>
+        /// 力を加える
+        /// </summary>
+        /// <param name="vector">力を加える方向</param>
+        /// <param name="position">力を加えるローカル位置</param>
         public void SetForce(asd.Vector2DF vector, asd.Vector2DF position)
         {
             b2Body.ApplyForce(PhysicalConvert.Tob2Vector(vector, false), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
         }
 
+        /// <summary>
+        /// 衝撃を加える
+        /// </summary>
+        /// <param name="vector">衝撃を加える方向</param>
+        /// <param name="position">衝撃を加えるローカル位置</param>
         public void SetImpulse(asd.Vector2DF vector, asd.Vector2DF position)
         {
             b2Body.ApplyImpulse(PhysicalConvert.Tob2Vector(vector, false), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
@@ -186,12 +220,21 @@ namespace PhysicAltseed
             base.Angle = b2Body.GetAngle() * 180.0f / 3.14f;
         }
 
+        /// <summary>
+        /// 衝突判定
+        /// </summary>
+        /// <param name="shape">衝突判定対象</param>
         public bool GetIsCollidedWith(PhysicalShape shape)
         {
             List<asd.Vector2DF> points;
             return refWorld.GetIsCollided(this, shape, out points);
         }
 
+        /// <summary>
+        /// 衝突判定
+        /// </summary>
+        /// <param name="shape">衝突判定対象</param>
+        /// <param name="points">衝突点</param>
         public bool GetIsCollidedWith(PhysicalShape shape, out List<asd.Vector2DF> points)
         {
             return refWorld.GetIsCollided(this, shape, out points);
