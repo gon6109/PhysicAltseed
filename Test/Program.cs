@@ -7,11 +7,12 @@ namespace Test
         public static void Main(string[] args)
         {
             asd.Engine.Initialize("Test", 640, 480, new asd.EngineOption());
-            PhysicAltseed.PhysicalWorld world = new PhysicAltseed.PhysicalWorld(new asd.RectF(new asd.Vector2DF(), asd.Engine.WindowSize.To2DF()), new asd.Vector2DF(0, 98));
+            PhysicAltseed.PhysicalConvert.PxPerMetreRate = 50;
+            PhysicAltseed.PhysicalWorld world = new PhysicAltseed.PhysicalWorld(new asd.RectF(new asd.Vector2DF(), asd.Engine.WindowSize.To2DF()), new asd.Vector2DF(0, 500.0f));
 
             asd.GeometryObject2D geometryObject = new asd.GeometryObject2D();
             PhysicAltseed.PhysicalRectangleShape shape = new PhysicAltseed.PhysicalRectangleShape(PhysicAltseed.PhysicalShapeType.Dynamic, world);
-            shape.DrawingArea = new asd.RectF(300, 50, 40, 40);
+            shape.DrawingArea = new asd.RectF(300, 50, 25, 25);
             shape.Friction = 0.6f;
             shape.Restitution = 0.8f;
             shape.Density = 1.0f;
@@ -26,10 +27,29 @@ namespace Test
             groundObject.Shape = ground;
             asd.Engine.AddObject2D(groundObject);
 
+            // 動的フォントを生成する。
+            var font = asd.Engine.Graphics.CreateDynamicFont("", 32, new asd.Color(255, 255, 255, 255), 1, new asd.Color(255, 255, 255, 255));
+
+            // FPSを表示するためのオブジェクトを生成する。
+            var obj = new asd.TextObject2D();
+            obj.Font = font;
+
+            // オブジェクトをエンジンに追加する。
+            asd.Engine.AddObject2D(obj);
+
             while (asd.Engine.DoEvents())
             {
                 world.Update();
                 asd.Engine.Update();
+
+                // 現在のFPSを取得する。
+                float fps = asd.Engine.CurrentFPS;
+
+                // 表示する文字列を生成する。
+                var str = "FPS : " + fps;
+
+                // 文字列をオブジェクトに設定する。
+                obj.Text = str;
             }
 
             asd.Engine.Terminate();

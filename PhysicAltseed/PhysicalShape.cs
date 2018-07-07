@@ -10,7 +10,7 @@ namespace PhysicAltseed
     /// </summary>
     public class PhysicalConvert
     {
-        const float PxPerMetreRate = 25.0f;
+        public static float PxPerMetreRate = 25.0f;
         static public asd.Vector2DF ToAsdVector(Vec2 b2vector, bool isMetre = true)
         {
             if (!isMetre) return new asd.Vector2DF(b2vector.X, b2vector.Y);

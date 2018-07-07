@@ -48,7 +48,7 @@ namespace PhysicAltseed
             AABB aabb = new AABB();
             aabb.LowerBound = PhysicalConvert.Tob2Vector(worldRect.Position);
             aabb.UpperBound = PhysicalConvert.Tob2Vector(worldRect.Vertexes[2]);
-            b2World = new World(aabb, PhysicalConvert.Tob2Vector(gravity, false), true);
+            b2World = new World(aabb, PhysicalConvert.Tob2Vector(gravity), true);
             b2World.SetContactListener(collisionController);
             TimeStep = 1.0f / 60.0f;
             VelocityItetions = 8;

@@ -200,7 +200,7 @@ namespace PhysicAltseed
         /// <param name="position">力を加えるローカル位置</param>
         public void SetForce(asd.Vector2DF vector, asd.Vector2DF position)
         {
-            b2Body.ApplyForce(PhysicalConvert.Tob2Vector(vector, false), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
+            b2Body.ApplyForce(PhysicalConvert.Tob2Vector(vector), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace PhysicAltseed
         /// <param name="position">衝撃を加えるローカル位置</param>
         public void SetImpulse(asd.Vector2DF vector, asd.Vector2DF position)
         {
-            b2Body.ApplyImpulse(PhysicalConvert.Tob2Vector(vector, false), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
+            b2Body.ApplyImpulse(PhysicalConvert.Tob2Vector(vector), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
         }
 
         public void SyncB2body()

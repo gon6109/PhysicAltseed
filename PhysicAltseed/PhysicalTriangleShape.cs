@@ -156,7 +156,7 @@ namespace PhysicAltseed
             b2PolygonDef = new PolygonDef();
             vertexes = new List<asd.Vector2DF>();
             b2PolygonDef.VertexCount = 3;
-            vertexes.Add(new asd.Vector2DF(0, 0));
+            vertexes.Add(new asd.Vector2DF(0, -1));
             vertexes.Add(new asd.Vector2DF(1, 0));
             vertexes.Add(new asd.Vector2DF(0, 1));
             refWorld = world;
@@ -193,21 +193,32 @@ namespace PhysicAltseed
         public void Reset()
         {
             refWorld.B2World.DestroyBody(b2Body);
+
             b2BodyDef = new BodyDef();
             b2PolygonDef = new PolygonDef();
+
             b2BodyDef.Angle = Angle / 180.0f * 3.14f;
             b2BodyDef.Position = PhysicalConvert.Tob2Vector(CenterPosition);
-            vertexes.Sort((a, b) => a.Degree.CompareTo(b.Degree));
+
+            var sortedVertexes = new List<asd.Vector2DF>();
+            foreach (var item in vertexes)
+            {
+                sortedVertexes.Add(item);
+            }
+            sortedVertexes.Sort((a, b) => a.Degree.CompareTo(b.Degree));
             b2PolygonDef.VertexCount = 3;
             for (int i = 0; i < 3; i++)
             {
-                b2PolygonDef.Vertices[i] = PhysicalConvert.Tob2Vector(vertexes[i]);
+                b2PolygonDef.Vertices[i] = PhysicalConvert.Tob2Vector(sortedVertexes[i]);
             }
+
             b2PolygonDef.Density = Density;
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
+
             b2Body = refWorld.B2World.CreateBody(b2BodyDef);
             b2Body.CreateFixture(b2PolygonDef);
+
             if (physicalShapeType == PhysicalShapeType.Dynamic) b2Body.SetMassFromShapes();
         }
 
@@ -218,7 +229,7 @@ namespace PhysicAltseed
         /// <param name="position">力を加えるローカル位置</param>
         public void SetForce(asd.Vector2DF vector, asd.Vector2DF position)
         {
-            b2Body.ApplyForce(PhysicalConvert.Tob2Vector(vector, false), PhysicalConvert.Tob2Vector(CenterPosition + position));
+            b2Body.ApplyForce(PhysicalConvert.Tob2Vector(vector), PhysicalConvert.Tob2Vector(CenterPosition + position));
         }
 
         /// <summary>
@@ -228,7 +239,7 @@ namespace PhysicAltseed
         /// <param name="position">衝撃を加えるローカル位置</param>
         public void SetImpulse(asd.Vector2DF vector, asd.Vector2DF position)
         {
-            b2Body.ApplyImpulse(PhysicalConvert.Tob2Vector(vector, false), PhysicalConvert.Tob2Vector(CenterPosition + position));
+            b2Body.ApplyImpulse(PhysicalConvert.Tob2Vector(vector), PhysicalConvert.Tob2Vector(CenterPosition + position));
         }
 
         public void SyncB2body()
