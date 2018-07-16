@@ -176,6 +176,15 @@ namespace PhysicAltseed
             world.Add(this);
         }
 
+        /// <summary>
+        /// 削除する
+        /// </summary>
+        public void Destroy()
+        {
+            refWorld.B2World.DestroyBody(b2Body);
+            Dispose();
+        }
+
         public void Reset()
         {
             refWorld.B2World.DestroyBody(b2Body);

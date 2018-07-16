@@ -74,6 +74,11 @@ namespace PhysicAltseed
         /// </summary>
         float AngularVelocity { get; set; }
 
+        /// <summary>
+        /// 削除する
+        /// </summary>
+        void Destroy();
+
         void SyncB2body();
 
         /// <summary>

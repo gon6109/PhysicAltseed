@@ -192,6 +192,15 @@ namespace PhysicAltseed
         }
 
         /// <summary>
+        /// 削除する
+        /// </summary>
+        public void Destroy()
+        {
+            refWorld.B2World.DestroyBody(b2Body);
+            Dispose();
+        }
+
+        /// <summary>
         /// 力を加える
         /// </summary>
         /// <param name="vector">力を加える方向</param>

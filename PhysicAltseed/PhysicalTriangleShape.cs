@@ -168,6 +168,15 @@ namespace PhysicAltseed
         }
 
         /// <summary>
+        /// 削除する
+        /// </summary>
+        public void Destroy()
+        {
+            refWorld.B2World.DestroyBody(b2Body);
+            Dispose();
+        }
+
+        /// <summary>
         /// 三角形のローカル座標を設定する
         /// </summary>
         /// <param name="point">ローカル座標</param>
