@@ -172,7 +172,7 @@ namespace PhysicAltseed
         /// </summary>
         public void Destroy()
         {
-            refWorld.B2World.DestroyBody(b2Body);
+            refWorld.Destroy(this);
             Dispose();
         }
 

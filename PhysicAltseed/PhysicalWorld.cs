@@ -79,6 +79,12 @@ namespace PhysicAltseed
             physicalShapes.Add(shape);
         }
 
+        public void Destroy(PhysicalShape shape)
+        {
+            B2World.DestroyBody(shape.B2Body);
+            physicalShapes.Remove(shape);
+        }
+
         /// <summary>
         /// 物理演算を1ステップ実行する
         /// </summary>

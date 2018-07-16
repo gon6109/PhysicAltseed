@@ -8,7 +8,7 @@ namespace Test
         {
             asd.Engine.Initialize("Test", 640, 480, new asd.EngineOption());
             PhysicAltseed.PhysicalConvert.PxPerMetreRate = 50;
-            PhysicAltseed.PhysicalWorld world = new PhysicAltseed.PhysicalWorld(new asd.RectF(new asd.Vector2DF(), asd.Engine.WindowSize.To2DF()), new asd.Vector2DF(0, 500.0f));
+            PhysicAltseed.PhysicalWorld world = new PhysicAltseed.PhysicalWorld(new asd.RectF(new asd.Vector2DF(), asd.Engine.WindowSize.To2DF()), new asd.Vector2DF(0, 250.0f));
 
             asd.GeometryObject2D geometryObject = new asd.GeometryObject2D();
             PhysicAltseed.PhysicalRectangleShape shape = new PhysicAltseed.PhysicalRectangleShape(PhysicAltseed.PhysicalShapeType.Dynamic, world);
@@ -39,6 +39,7 @@ namespace Test
 
             while (asd.Engine.DoEvents())
             {
+                if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Left) == asd.KeyState.Hold) shape.SetForce(new asd.Vector2DF(25, 0), shape.CenterPosition);//Velocity = new asd.Vector2DF(-25, shape.Velocity.Y);
                 world.Update();
                 asd.Engine.Update();
 
