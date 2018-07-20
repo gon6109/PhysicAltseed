@@ -99,6 +99,12 @@ namespace PhysicAltseed
         /// 衝突判定
         /// </summary>
         /// <param name="shape">衝突判定対象</param>
+        bool GetIsCollidedWith(asd.Shape shape);
+
+        /// <summary>
+        /// 衝突判定
+        /// </summary>
+        /// <param name="shape">衝突判定対象</param>
         bool GetIsCollidedWith(PhysicalShape shape);
 
         /// <summary>
