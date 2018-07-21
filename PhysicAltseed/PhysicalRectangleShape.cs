@@ -248,5 +248,21 @@ namespace PhysicAltseed
         {
             return refWorld.GetIsCollided(this, shape, out points);
         }
+
+        /// <summary>
+        /// 物理シミュレーションをするか否か
+        /// </summary>
+        public bool IsActive
+        {
+            get
+            {
+                return b2Body.IsDynamic();
+            }
+            set
+            {
+                if (value) b2Body.SetMassFromShapes();
+                else b2Body.SetStatic();
+            }
+        }
     }
 }

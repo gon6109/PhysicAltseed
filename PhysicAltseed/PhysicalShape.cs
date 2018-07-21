@@ -113,6 +113,11 @@ namespace PhysicAltseed
         /// <param name="shape">衝突判定対象</param>
         /// <param name="points">衝突点</param>
         bool GetIsCollidedWith(PhysicalShape shape, out List<asd.Vector2DF> points);
+
+        /// <summary>
+        /// 物理シミュレーションをするか否か
+        /// </summary>
+        bool IsActive { get; set; }
     }
 
     /// <summary>

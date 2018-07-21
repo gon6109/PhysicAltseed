@@ -36,12 +36,16 @@ namespace Test
 
             // オブジェクトをエンジンに追加する。
             asd.Engine.AddObject2D(obj);
+            int c = 0;
 
             while (asd.Engine.DoEvents())
             {
                 if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Left) == asd.KeyState.Hold) shape.SetForce(new asd.Vector2DF(25, 0), shape.CenterPosition);//Velocity = new asd.Vector2DF(-25, shape.Velocity.Y);
                 world.Update();
                 asd.Engine.Update();
+
+                if (c % 200 == 0) shape.IsActive = true;
+                else if (c % 200 == 100) shape.IsActive = false;
 
                 // 現在のFPSを取得する。
                 float fps = asd.Engine.CurrentFPS;
@@ -51,6 +55,7 @@ namespace Test
 
                 // 文字列をオブジェクトに設定する。
                 obj.Text = str;
+                c++;
             }
 
             asd.Engine.Terminate();
