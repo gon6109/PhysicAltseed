@@ -262,7 +262,8 @@ namespace PhysicAltseed
         /// <summary>
         /// 物理シミュレーションをするか否か
         /// </summary>
-        public bool IsActive {
+        public bool IsActive
+        {
             get
             {
                 return b2Body != null;
@@ -271,10 +272,13 @@ namespace PhysicAltseed
             {
                 if (value)
                 {
+                    if (IsActive == false) Reset();
+                }
+                else
+                {
                     b2Body.GetWorld().DestroyBody(b2Body);
                     b2Body = null;
                 }
-                else Reset();
             }
         }
     }

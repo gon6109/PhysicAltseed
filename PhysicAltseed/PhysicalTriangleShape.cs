@@ -309,10 +309,13 @@ namespace PhysicAltseed
             {
                 if (value)
                 {
+                    if (IsActive == false) Reset();
+                }
+                else
+                {
                     b2Body.GetWorld().DestroyBody(b2Body);
                     b2Body = null;
                 }
-                else Reset();
             }
         }
     }
