@@ -47,6 +47,18 @@ namespace Test
                 if (c % 200 == 0) shape.IsActive = true;
                 else if (c % 200 == 100) shape.IsActive = false;
 
+                if (asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
+                {
+                    asd.GeometryObject2D geometryObject2 = new asd.GeometryObject2D();
+                    PhysicAltseed.PhysicalRectangleShape shape2 = new PhysicAltseed.PhysicalRectangleShape(PhysicAltseed.PhysicalShapeType.Dynamic, world);
+                    shape2.DrawingArea = new asd.RectF(asd.Engine.Mouse.Position, new asd.Vector2DF(25, 25));
+                    shape2.Friction = 0.6f;
+                    shape2.Restitution = 0.8f;
+                    shape2.Density = 1.0f;
+                    geometryObject2.Shape = shape2;
+                    asd.Engine.AddObject2D(geometryObject2);
+                }
+
                 // 現在のFPSを取得する。
                 float fps = asd.Engine.CurrentFPS;
 

@@ -129,10 +129,12 @@ namespace PhysicAltseed
         {
             get
             {
+                if (!IsActive) return new asd.Vector2DF();
                 return PhysicalConvert.ToAsdVector(b2Body.GetLinearVelocity());
             }
             set
             {
+                if (!IsActive) return;
                 if (physicalShapeType == PhysicalShapeType.Kinematic) b2Body.SetPosition(PhysicalConvert.Tob2Vector(value * refWorld.TimeStep) + b2Body.GetPosition());
                 else b2Body.SetLinearVelocity(PhysicalConvert.Tob2Vector(value));
             }
@@ -145,10 +147,12 @@ namespace PhysicAltseed
         {
             get
             {
+                if (!IsActive) return 0;
                 return b2Body.GetAngularVelocity() * 180.0f / 3.14f;
             }
             set
             {
+                if (!IsActive) return;
                 if (physicalShapeType == PhysicalShapeType.Kinematic) b2Body.SetAngle(value / 180.0f * 3.14f + b2Body.GetAngle());
                 else b2Body.SetAngularVelocity(value / 180.0f * 3.14f);
             }
@@ -187,7 +191,7 @@ namespace PhysicAltseed
 
         public void Reset()
         {
-            refWorld.B2World.DestroyBody(b2Body);
+            if (b2Body != null) refWorld.B2World.DestroyBody(b2Body);
             b2BodyDef = new BodyDef();
             b2PolygonDef = new PolygonDef();
             b2BodyDef.Position = PhysicalConvert.Tob2Vector(DrawingArea.Size / 2.0f + DrawingArea.Position);
@@ -209,6 +213,7 @@ namespace PhysicAltseed
         /// <param name="position">力を加えるローカル位置</param>
         public void SetForce(asd.Vector2DF vector, asd.Vector2DF position)
         {
+            if (!IsActive) return;
             b2Body.ApplyForce(PhysicalConvert.Tob2Vector(vector), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
         }
 
@@ -219,11 +224,13 @@ namespace PhysicAltseed
         /// <param name="position">衝撃を加えるローカル位置</param>
         public void SetImpulse(asd.Vector2DF vector, asd.Vector2DF position)
         {
+            if (!IsActive) return;
             b2Body.ApplyImpulse(PhysicalConvert.Tob2Vector(vector), PhysicalConvert.Tob2Vector(DrawingArea.Position + position));
         }
 
         public void SyncB2body()
         {
+            if (!IsActive) return;
             asd.Vector2DF move = PhysicalConvert.ToAsdVector(b2Body.GetPosition()) - (DrawingArea.Size / 2.0f + DrawingArea.Position);
             base.DrawingArea = new asd.RectF(DrawingArea.Position + move, DrawingArea.Size);
             base.Angle = b2Body.GetAngle() * 180.0f / 3.14f;
@@ -235,6 +242,7 @@ namespace PhysicAltseed
         /// <param name="shape">衝突判定対象</param>
         public bool GetIsCollidedWith(PhysicalShape shape)
         {
+            if (!IsActive) return false;
             List<asd.Vector2DF> points;
             return refWorld.GetIsCollided(this, shape, out points);
         }
@@ -246,6 +254,11 @@ namespace PhysicAltseed
         /// <param name="points">衝突点</param>
         public bool GetIsCollidedWith(PhysicalShape shape, out List<asd.Vector2DF> points)
         {
+            if (!IsActive)
+            {
+                points = new List<asd.Vector2DF>();
+                return false;
+            }
             return refWorld.GetIsCollided(this, shape, out points);
         }
 
@@ -256,12 +269,16 @@ namespace PhysicAltseed
         {
             get
             {
-                return b2Body.IsDynamic();
+                return b2Body != null;
             }
             set
             {
-                if (value) b2Body.SetMassFromShapes();
-                else b2Body.SetStatic();
+                if (value)
+                {
+                    b2Body.GetWorld().DestroyBody(b2Body);
+                    b2Body = null;
+                }
+                else Reset();
             }
         }
     }
