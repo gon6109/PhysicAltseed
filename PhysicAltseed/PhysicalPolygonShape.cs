@@ -4,8 +4,12 @@ using Box2DNet.Collision;
 using Box2DNet.Common;
 using Box2DNet.Dynamics;
 using System.Linq;
+using OpenCvSharp;
 namespace PhysicAltseed
 {
+    /// <summary>
+    /// 物理対応多角形
+    /// </summary>
     public class PhysicalPolygonShape : asd.PolygonShape, PhysicalShape
     {
         BodyDef b2BodyDef;
@@ -380,6 +384,49 @@ namespace PhysicAltseed
                 {
                     if (IsActive == true) b2Body.GetWorld().DestroyBody(b2Body);
                     b2Body = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 画像の透過情報からポリゴンに変換
+        /// </summary>
+        /// <param name="path">画像へのパス</param>
+        /// <param name="accuracy">精度</param>
+        public void ImageToPolygon(string path, float accuracy = 0.01f)
+        {
+            using (var image = Cv2.ImRead(path, ImreadModes.Unchanged))
+            {
+                for (int i = 0; i < image.Rows; i++)
+                {
+                    for (int l = 0; l < image.Cols; l++)
+                    {
+                        Vec4b px = image.At<Vec4b>(i, l);
+                        px[0] = px[3];
+                        px[1] = px[3];
+                        px[2] = px[3];
+                        image.Set<Vec4b>(i, l, px);
+                    }
+                }
+                var newImage = image.CvtColor(ColorConversionCodes.RGBA2GRAY);
+                Cv2.Threshold(newImage, newImage, 0.0, 255.0, ThresholdTypes.Otsu);
+
+                Point[][] countours;
+                HierarchyIndex[] hierarchy;
+                Cv2.FindContours(newImage, out countours, out hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxTC89L1);
+                float area = 0;
+                Point[] approx = null;
+                foreach (Point[] item in countours)
+                {
+                    Point[] temp;
+                    temp = Cv2.ApproxPolyDP(item, accuracy * Cv2.ArcLength(item, true), true);
+                    if (area < Cv2.ContourArea(temp)) approx = temp;
+                }
+
+                if (approx == null) return;
+                foreach (var item in approx)
+                {
+                    AddVertex(new asd.Vector2DF(item.X, item.Y) - new asd.Vector2DF(image.Cols, image.Rows) / 2.0f);
                 }
             }
         }

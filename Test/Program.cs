@@ -22,7 +22,7 @@ namespace Test
             asd.GeometryObject2D groundObject = new asd.GeometryObject2D();
             PhysicAltseed.PhysicalRectangleShape ground = new PhysicAltseed.PhysicalRectangleShape(PhysicAltseed.PhysicalShapeType.Static, world);
             ground.DrawingArea = new asd.RectF(0, 430, 640, 50);
-            ground.Friction = 0.6f;
+            ground.Friction = 0.8f;
             ground.Restitution = 0.0f;
             groundObject.Shape = ground;
             asd.Engine.AddObject2D(groundObject);
@@ -36,30 +36,13 @@ namespace Test
 
                 if (asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
                 {
-                    asd.GeometryObject2D geometryObject2 = new asd.GeometryObject2D();
-                    PhysicAltseed.PhysicalPolygonShape shape2 = new PhysicAltseed.PhysicalPolygonShape(PhysicAltseed.PhysicalShapeType.Dynamic, world);
-                    shape2.CenterPosition = asd.Engine.Mouse.Position;
-                    for (int i = 0; i < 10; i++)
-                    {
-                        asd.Vector2DF vec = new asd.Vector2DF(1, 0);
-                        vec.Degree = i * 36;
-
-                        if (i % 2 == 0)
-                        {
-                            vec.Length = 50;
-                        }
-                        else
-                        {
-                            vec.Length = 22;
-                        }
-
-                        shape2.AddVertex(vec);
-                    }
-                    shape2.Friction = 0.6f;
-                    shape2.Restitution = 0.8f;
-                    shape2.Density = 1.0f;
-                    geometryObject2.Shape = shape2;
-                    asd.Engine.AddObject2D(geometryObject2);
+                    PhysicAltseed.PhysicalTextureObject2D physicalTextureObject = new PhysicAltseed.PhysicalTextureObject2D(PhysicAltseed.PhysicalShapeType.Dynamic, world);
+                    physicalTextureObject.Position = asd.Engine.Mouse.Position;
+                    physicalTextureObject.SetTexture("run_g0001.png");
+                    physicalTextureObject.CollisionShape.Friction = 0.8f;
+                    physicalTextureObject.CollisionShape.Restitution = 0.2f;
+                    physicalTextureObject.CollisionShape.Density = 1.0f;
+                    asd.Engine.AddObject2D(physicalTextureObject);
                 }
             }
 
