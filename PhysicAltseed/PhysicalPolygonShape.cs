@@ -447,6 +447,7 @@ namespace PhysicAltseed
         /// <param name="accuracy">精度</param>
         public void ImageToPolygon(string path, float accuracy = 0.01f)
         {
+            ClearVertexes();
             using (var image = Cv2.ImRead(path, ImreadModes.Unchanged))
             {
                 for (int i = 0; i < image.Rows; i++)
