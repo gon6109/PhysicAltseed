@@ -168,6 +168,9 @@ namespace PhysicAltseed
             density = 1;
             restitution = 0;
             friction = 0.6f;
+            groupIndex = 0;
+            categoryBits = 0x0001;
+            maskBits = 0xffff;
             b2BodyDef = new BodyDef();
             b2PolygonDef = new PolygonDef();
             refWorld = world;
@@ -201,6 +204,9 @@ namespace PhysicAltseed
             b2PolygonDef.Density = Density;
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
+            b2PolygonDef.Filter.GroupIndex = GroupIndex;
+            b2PolygonDef.Filter.CategoryBits = CategoryBits;
+            b2PolygonDef.Filter.MaskBits = MaskBits;
             b2Body = refWorld.B2World.CreateBody(b2BodyDef);
             b2Body.CreateFixture(b2PolygonDef);
             if (physicalShapeType == PhysicalShapeType.Dynamic) b2Body.SetMassFromShapes();
@@ -282,6 +288,49 @@ namespace PhysicAltseed
                     if (IsActive == true) b2Body.GetWorld().DestroyBody(b2Body);
                     b2Body = null;
                 }
+            }
+        }
+
+        short groupIndex;
+        ushort categoryBits;
+        ushort maskBits;
+
+        /// <summary>
+        /// 衝突判定グループ
+        /// </summary>
+        public short GroupIndex
+        {
+            get => groupIndex;
+            set
+            {
+                groupIndex = value;
+                Reset();
+            }
+        }
+
+        /// <summary>
+        /// 衝突判定カテゴリー
+        /// </summary>
+        public ushort CategoryBits
+        {
+            get => categoryBits;
+            set
+            {
+                categoryBits = value;
+                Reset();
+            }
+        }
+
+        /// <summary>
+        /// どのカテゴリーと衝突するか
+        /// </summary>
+        public ushort MaskBits
+        {
+            get => maskBits;
+            set
+            {
+                maskBits = value;
+                Reset();
             }
         }
     }

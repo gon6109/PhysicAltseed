@@ -158,6 +158,9 @@ namespace PhysicAltseed
             density = 1.0f;
             restitution = 0.3f;
             angle = 0.0f;
+            groupIndex = 0;
+            categoryBits = 0x0001;
+            maskBits = 0xffff;
             b2BodyDef = new BodyDef();
             b2PolygonDefs = new List<PolygonDef>();
             vertexes = new List<asd.Vector2DF>();
@@ -300,6 +303,12 @@ namespace PhysicAltseed
             b2PolygonDef.Density = Density;
             b2PolygonDef.Restitution = Restitution;
             b2PolygonDef.Friction = Friction;
+            b2PolygonDef.Filter = new FilterData()
+            {
+                GroupIndex = GroupIndex,
+                CategoryBits = CategoryBits,
+                MaskBits = MaskBits
+            };
             return b2PolygonDef;
         }
 
@@ -385,6 +394,49 @@ namespace PhysicAltseed
                     if (IsActive == true) b2Body.GetWorld().DestroyBody(b2Body);
                     b2Body = null;
                 }
+            }
+        }
+
+        short groupIndex;
+        ushort categoryBits;
+        ushort maskBits;
+
+        /// <summary>
+        /// 衝突判定グループ
+        /// </summary>
+        public short GroupIndex
+        {
+            get => groupIndex;
+            set
+            {
+                groupIndex = value;
+                Reset();
+            }
+        }
+
+        /// <summary>
+        /// 衝突判定カテゴリー
+        /// </summary>
+        public ushort CategoryBits
+        {
+            get => categoryBits;
+            set
+            {
+                categoryBits = value;
+                Reset();
+            }
+        }
+
+        /// <summary>
+        /// どのカテゴリーと衝突するか
+        /// </summary>
+        public ushort MaskBits
+        {
+            get => maskBits;
+            set
+            {
+                maskBits = value;
+                Reset();
             }
         }
 

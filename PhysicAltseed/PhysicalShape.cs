@@ -118,6 +118,21 @@ namespace PhysicAltseed
         /// 物理シミュレーションをするか否か
         /// </summary>
         bool IsActive { get; set; }
+
+        /// <summary>
+        /// 衝突判定グループ
+        /// </summary>
+        short GroupIndex { get; set; }
+
+        /// <summary>
+        /// 衝突判定カテゴリー
+        /// </summary>
+        ushort CategoryBits { get; set; }
+
+        /// <summary>
+        /// どのカテゴリーと衝突するか
+        /// </summary>
+        ushort MaskBits { get; set; }
     }
 
     /// <summary>
