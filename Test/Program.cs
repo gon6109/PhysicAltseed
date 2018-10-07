@@ -54,7 +54,6 @@ namespace Test
                     asd.Engine.AddObject2D(physicalTextureObject);
                 }
             }
-
             asd.Engine.Terminate();
         }
     }

@@ -77,7 +77,7 @@ namespace PhysicAltseed
         /// <summary>
         /// 削除する
         /// </summary>
-        void Destroy();
+        void Dispose();
 
         void SyncB2body();
 

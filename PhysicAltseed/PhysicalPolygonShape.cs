@@ -176,10 +176,10 @@ namespace PhysicAltseed
         /// <summary>
         /// 削除する
         /// </summary>
-        public void Destroy()
+        public new void Dispose()
         {
             refWorld.Destroy(this);
-            Dispose();
+            base.Dispose();
         }
 
         /// <summary>
