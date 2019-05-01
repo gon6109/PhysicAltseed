@@ -182,9 +182,18 @@ namespace PhysicAltseed
             world.Add(this);
         }
 
+        ~PhysicalCircleShape()
+        {
+            b2Body?.Dispose();
+        }
+
         public void Reset()
         {
-            if (b2Body != null)  refWorld.B2World.DestroyBody(b2Body);
+            if(b2Body != null)
+            {
+                refWorld.B2World.DestroyBody(b2Body);
+                b2Body.Dispose();
+            }
             b2BodyDef = new BodyDef();
             b2CircleDef = new CircleDef();
             b2BodyDef.Angle = Angle / 180.0f * 3.14f;

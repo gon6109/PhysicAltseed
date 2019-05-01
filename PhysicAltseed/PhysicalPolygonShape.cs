@@ -173,6 +173,11 @@ namespace PhysicAltseed
             world.Add(this);
         }
 
+        ~PhysicalPolygonShape()
+        {
+            b2Body?.Dispose();
+        }
+        
         /// <summary>
         /// 削除する
         /// </summary>
@@ -208,7 +213,11 @@ namespace PhysicAltseed
         {
             if (vertexes.Count < 3) return;
 
-            if (b2Body != null) refWorld.B2World.DestroyBody(b2Body);
+            if(b2Body != null)
+            {
+                refWorld.B2World.DestroyBody(b2Body);
+                b2Body.Dispose();
+            }
 
             b2BodyDef = new BodyDef();
 

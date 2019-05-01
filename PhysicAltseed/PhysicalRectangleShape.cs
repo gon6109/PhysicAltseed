@@ -183,6 +183,11 @@ namespace PhysicAltseed
             world.Add(this);
         }
 
+        ~PhysicalRectangleShape()
+        {
+            b2Body?.Dispose();
+        }
+
         /// <summary>
         /// 削除する
         /// </summary>
@@ -194,7 +199,11 @@ namespace PhysicAltseed
 
         public void Reset()
         {
-            if (b2Body != null) refWorld.B2World.DestroyBody(b2Body);
+            if (b2Body != null)
+            {
+                refWorld.B2World.DestroyBody(b2Body);
+                b2Body.Dispose();
+            }
             b2BodyDef = new BodyDef();
             b2PolygonDef = new PolygonDef();
             b2BodyDef.Position = PhysicalConvert.Tob2Vector(DrawingArea.Size / 2.0f + DrawingArea.Position);

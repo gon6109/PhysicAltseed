@@ -56,6 +56,11 @@ namespace PhysicAltseed
             PositionIterations = 1;
         }
 
+        ~PhysicalWorld()
+        {
+            b2World.Dispose();
+        }
+
         public bool GetIsCollided(PhysicalShape shape1, PhysicalShape shape2 , out List<asd.Vector2DF> points)
         {
             points = new List<asd.Vector2DF>();
