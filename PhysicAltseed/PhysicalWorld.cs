@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Box2DNet.Collision;
 using Box2DNet.Common;
 using Box2DNet.Dynamics;
+using System.Linq;
+
 namespace PhysicAltseed
 {
     /// <summary>
@@ -97,7 +99,11 @@ namespace PhysicAltseed
         public void Update()
         {
             b2World.Step(TimeStep, VelocityItetions, PositionIterations);
-            foreach (var item in physicalShapes)
+            foreach (var item in physicalShapes.OfType<asd.Shape>().Where(obj => obj.IsReleased).OfType<PhysicalShape>().ToList())
+            {
+                physicalShapes.Remove(item);
+            }
+            foreach (var item in physicalShapes.Where(obj => obj.B2Body != null))
             {
                 item.SyncB2body();
             }
