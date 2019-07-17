@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Test
 {
@@ -42,17 +43,12 @@ namespace Test
 
                 if (asd.Engine.Mouse.RightButton.ButtonState == asd.MouseButtonState.Push)
                 {
-                    PhysicAltseed.PhysicalTextureObject2D physicalTextureObject = new PhysicAltseed.PhysicalTextureObject2D(PhysicAltseed.PhysicalShapeType.Dynamic, world);
-                    physicalTextureObject.Position = asd.Engine.Mouse.Position;
-                    physicalTextureObject.SetTexture("run_g0001.png");
-                    physicalTextureObject.CollisionShape.Friction = 0.8f;
-                    physicalTextureObject.CollisionShape.Restitution = 0.2f;
-                    physicalTextureObject.CollisionShape.Density = 1.0f;
-                    physicalTextureObject.CollisionShape.CategoryBits = 0x0002;
-                    physicalTextureObject.CollisionShape.MaskBits = 0x0002;
-                    physicalTextureObject.Color = new asd.Color(100, 255, 100);
-                    asd.Engine.AddObject2D(physicalTextureObject);
+                    var remove = asd.Engine.CurrentScene.Layers.OfType<asd.Layer2D>().First().Objects.OfType<PhysicAltseed.PhysicalTextureObject2D>().First();
+                    remove.CollisionShape.IsActive = false;
+                    remove.CollisionShape.Dispose();
+                    remove.Dispose();
                 }
+
             }
             asd.Engine.Terminate();
         }

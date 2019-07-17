@@ -15,8 +15,8 @@ namespace PhysicAltseed
         World b2World;
         List<PhysicalShape> physicalShapes;
         CollisionController collisionController;
-        public World B2World 
-        { 
+        public World B2World
+        {
             get
             {
                 return b2World;
@@ -63,11 +63,11 @@ namespace PhysicAltseed
             b2World.Dispose();
         }
 
-        public bool GetIsCollided(PhysicalShape shape1, PhysicalShape shape2 , out List<asd.Vector2DF> points)
+        public bool GetIsCollided(PhysicalShape shape1, PhysicalShape shape2, out List<asd.Vector2DF> points)
         {
             points = new List<asd.Vector2DF>();
 
-            Body shape1B2Body = null,shape2B2Body = null;
+            Body shape1B2Body = null, shape2B2Body = null;
             shape1B2Body = shape1.B2Body;
             shape2B2Body = shape2.B2Body;
 
@@ -89,7 +89,8 @@ namespace PhysicAltseed
 
         public void Destroy(PhysicalShape shape)
         {
-            B2World.DestroyBody(shape.B2Body);
+            if (shape.IsActive)
+                B2World.DestroyBody(shape.B2Body);
             physicalShapes.Remove(shape);
         }
 
@@ -136,7 +137,7 @@ namespace PhysicAltseed
             collisionShapes = new List<CollisionData>();
         }
 
-        void IContactListener.BeginContact(Contact contact) 
+        void IContactListener.BeginContact(Contact contact)
         {
             if (!contact.AreTouching) return;
             CollisionData temp = new CollisionData();
@@ -174,7 +175,7 @@ namespace PhysicAltseed
 
         void IContactListener.PreSolve(Contact contact, Manifold oldManifold)
         {
-            
+
         }
 
         void IContactListener.EndContact(Contact contact)
