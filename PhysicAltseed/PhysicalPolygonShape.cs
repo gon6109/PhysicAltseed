@@ -401,7 +401,7 @@ namespace PhysicAltseed
                 else
                 {
                     if (IsActive == true) b2Body.GetWorld().DestroyBody(b2Body);
-                    b2Body.Dispose();
+                    b2Body?.Dispose();
                     b2Body = null;
                 }
             }
